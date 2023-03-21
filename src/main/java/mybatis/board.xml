@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<!-- mybatis package -->
+
+	<!-- ==========================================================이예린================================================================ -->
+
+	<insert id="insertBoard" parameterType="board">
+		insert into board
+		values
+		(boardseq.nextval,#{name},#{pass},#{subject},#{content},#{file1},
+		sysdate,0,boardseq.currval,#{reflevel},#{refstep},#{boardid})
+	</insert>
+
+	<select id="boardCount" parameterType="String" resultType="int">
+		select count(*) from board where boardid = #{boardid}
+	</select>
+
+	<select id="boardList" parameterType="map" resultType="board">
+		select *
+		from
+		(select rownum rnum, a.*, (select count(*) from board where a.num = ref ) cc
+		from
+		(select * from board where boardid = #{boardid} order by ref desc,
+		refstep) a)
+		where rnum between #{start} and #{end}
+	</select>
+
+	<select id="boardOne" parameterType="int" resultType="board">
+		select *
+		from board where num = #{num}
+	</select>
+
+	<insert id="insertReply" parameterType="board">
+		insert into board
+		values(boardseq.nextval,#{name},#{pass},#{subject},#{content},#{file1},
+		sysdate,0,#{ref},#{reflevel},#{refstep},#{boardid})
+	</insert>
+
+	<update id="refstepAdd" parameterType="map">
+		update board set refstep = refstep + 1
+		where ref = #{ref} and refstep > #{refstep}
+	</update>
+
+	<delete id="boardDelete" parameterType="map">
+		delete from board
+		where num=#{num}
+	</delete>
+
+	<update id="boardUpdate" parameterType="board">
+		update board set subject
+		= #{subject}, content = #{content}, file1 = #{file1}
+		where num = #{num}
+	</update>
+
+	<delete id="readCountUp" parameterType="int">  <!-- 조회수 증가 -->
+		update board set readcnt = readcnt+1 where num=#{num}
+	</delete>
+
+
+	<!-- ==========================================================박성주================================================================ -->
+
+	<select id="boardCountMember" parameterType="String"
+		resultType="int">
+		select count(*) from board where name = #{name}
+	</select>
+
+	<select id="boardListMember" parameterType="map"
+		resultType="board">
+		select * from
+		(select rownum rnum, a.* from
+		(select * from board where name = #{name} order by ref desc, refstep) a)
+		where rnum between
+		#{start} and #{end}
+	</select>
+
+
+
+</mapper>

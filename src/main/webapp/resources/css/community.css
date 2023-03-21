@@ -1,0 +1,134 @@
+section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+section p {
+    font-size: 1.3vw;
+    margin: 0;
+    padding: 0;
+}
+
+#board {
+    width: 75vw;
+    border: solid 1px #ffe4c4e6;
+    padding: 2%;
+}
+
+#board a { 
+    text-decoration:none; 
+    color: black;
+}
+#board a:hover { 
+    text-decoration:underline;  
+    color: black;
+}
+
+#board_header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+    margin-bottom: 10px;
+}
+
+section label {
+    font-size: 0.8vw;
+}
+
+#table_list {
+
+    display: flex;
+    justify-content: center;
+}
+
+#table_list table {
+    width: 75vw;
+    font-size: 0.9vw;
+    border-collapse: collapse;
+}
+
+#table_list tr {
+    height: 40px;
+}
+
+.table_header {
+    border-top: solid 2px var(--cl-orange);
+    border-bottom: solid 1px var(--cl-orange);
+}
+
+.table_data {
+    border-bottom: solid 1px var(--cl-liteorange);
+}
+
+
+
+.table_data div {
+    display: inline-block;
+    border: solid 1px #ffe4c4e6;
+    background-color: white;
+    height: 1.3vh;
+    border-radius: 10px;
+    font-size: 0.7vw;
+    text-align: center;
+    margin-left: 5px;
+    padding: 0 2px 3px 2px;
+    color: var(--cl-orange);
+}
+
+#board_footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn {
+    border: 2px solid black;
+    border-radius: 10%;
+    background-color: white;
+    color: black;
+    width: 5vw;
+    height: 5vh;
+    font-size: 0.8vw;
+    cursor: pointer;
+  }
+
+  .warning {
+    border-color: #ffe4c4e6;
+    color: orange;
+  }
+  
+  .warning:hover {
+    border-color: #ff9800;
+    color: #ff9800;
+    font-weight: bold;
+  }
+
+  #next_buttons a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.5vw 1vw;
+    font-size: 1vw;
+  }
+  
+  #next_buttons a:hover {
+    text-decoration: none;
+    background-color: #ffe4c4e6;
+    color: black;
+  }
+  
+  .previous {
+    background-color: #f1f1f1;
+    color: black;
+  }
+  
+  .next {
+    background-color: #ff9800;
+    color: white;
+  }
+  
+  .round {
+    border-radius: 10%;
+  }

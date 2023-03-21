@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+
+	<insert id="insertMember" parameterType="member">
+		insert into member values
+		(member_seq.nextval,#{member_id},#{member_pw},#{member_picture},#{member_name},#{member_nickname},#{member_email1},#{member_email2},#{member_phone},#{member_gender},#{member_birthdate},sysdate)
+
+	</insert>
+
+	<select id="selectOne" resultType="member"
+		parameterType="string">
+		select * from member where member_id = #{value}
+	</select>
+	
+	<!-- ==========================================================박서현================================================================ -->
+
+	<update id="updateMember" parameterType="member">
+		update member set
+		member_gender=#{member_gender},member_phone=#{member_phone},member_nickname=#{member_nickname},member_email1=#{member_email1},
+		member_email2=#{member_email2} ,member_picture=#{member_picture},
+		member_birthdate=#{member_birthdate}
+		where member_id=#{member_id} and member_pw=#{member_pw}
+	</update>
+
+	<update id="changePass" parameterType="map">
+		update member set
+		member_pw=#{member_pw} where member_id =#{member_id}
+	</update>
+	
+	<!-- ==========================================================박성주================================================================ -->
+	
+	<delete id="deleteMember" parameterType="string">
+		delete from
+		member where member_id=#{member_id}
+	</delete>
+
+	<select id="memberList" resultType="member">
+		select * from member
+	</select>
+
+	<select id="memberCount" parameterType="String" resultType="int">
+		select count(*) from member
+	</select>
+
+	<select id="adminMemberList" parameterType="map"
+		resultType="member">
+		select * from
+		(select rownum rnum, a.* from
+		(select * from member) a)
+		where rnum between
+		#{start} and #{end}
+	</select>
+
+	<select id="boardCountMemberSearch" parameterType="String"
+		resultType="int">
+		select count(*) from member where member_id like '%' || #{value} || '%'
+		or member_name like '%' || #{value} || '%' or member_nickname like '%'
+		|| #{value} || '%'
+		or member_email1 like '%' || #{value} || '%' or member_email2 like '%'
+		|| #{value} || '%'
+		or member_phone like '%' || #{value} || '%' or member_gender like '%' ||
+		#{value} || '%'
+		or member_birthdate like '%' || #{value} || '%' or member_joindate like
+		'%' || #{value} || '%'
+	</select>
+
+	<select id="boardListMemberSearch" parameterType="map"
+		resultType="member">
+		select * from
+		(select rownum rnum, a.* from
+		(select * from member where member_id like '%'
+		|| #{value} || '%'
+		or member_name like '%' || #{value} || '%' or member_nickname like '%'
+		|| #{value} || '%'
+		or member_email1 like '%' || #{value} || '%' or member_email2 like '%'
+		|| #{value} || '%'
+		or member_phone like '%' || #{value} || '%' or member_gender like '%' ||
+		#{value} || '%'
+		or member_birthdate like '%' || #{value} || '%' or member_joindate like
+		'%' || #{value} || '%') a)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="findId" resultType="member" parameterType="map">
+      select * from member where member_name = #{member_name} and member_email1= #{member_email1} and member_email2= #{member_email2}
+   </select>
+   
+   <select id="findPw" resultType="member" parameterType="map">
+      select * from member where member_id = #{member_id} and member_name = #{member_name} and member_email1= #{member_email1} and member_email2= #{member_email2}
+   </select>
+
+
+
+</mapper>

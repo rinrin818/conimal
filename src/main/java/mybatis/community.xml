@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="community">
+
+	<select id="boardCount" parameterType="String" resultType="int">
+		select count(*) from community where boardid = #{boardid}
+	</select>
+
+	<select id="boardList" parameterType="map" resultType="community">
+		select * from
+		(select rownum rnum, a. * from
+		(select * from community where boardid = #{boardid} order by reply_idx desc, reply_step) a)
+		where rnum between #{start} and #{end}
+	</select>
+
+	<select id="boardOne" parameterType="int" resultType="community">
+		select *
+		from community where community_idx = #{community_idx}
+	</select>
+
+	<update id="boardUpdate" parameterType="community">
+		update community set
+		community_title = #{community_title}, community_content = #{community_content}
+		where community_idx = #{community_idx}
+	</update>
+
+	<insert id="insertcommunity" parameterType="community">
+		insert into community
+		values
+		(boardseq.nextval,0, #{member_nickname_fk},#{community_title},#{community_content},#{community_file}, 
+		sysdate,0,0,#{reply_level},#{reply_step},#{boardid})
+	</insert>
+
+	<delete id="communityDelete" parameterType="int">
+		delete from community
+		where community_idx=#{community_idx}
+	</delete>
+
+	<delete id="readCountUp" parameterType="int">
+		update community set community_hit = community_hit+1 
+		where community_idx=#{community_idx}
+	</delete>
+
+	<select id="community_New" parameterType="map"
+		resultType="community">
+		select * from
+		(select rownum rnum, a.* from
+		(select * from community) a)
+		where rnum between #{start} and #{end}
+	</select>
+
+	<insert id="insertReply" parameterType="map">
+		insert into comreple
+		values (#{community_idx}, repseq.nextval, #{msg}, #{member_id}, sysdate)
+	</insert>
+
+	<select id="replyAll" parameterType="int" resultType="comReply">
+		select * from comreple where community_idx = #{community_idx}
+	</select>
+
+
+	<!-- ==========================================================박성주================================================================ -->
+
+	<select id="boardCountMember" parameterType="String"
+		resultType="int">
+		select count(*) from community where member_nickname_fk = #{member_nickname_fk}
+	</select>
+
+	<select id="boardListMember" parameterType="map"
+		resultType="community">
+		select * from
+		(select rownum rnum, a.* from
+		(select * from community where member_nickname_fk = #{member_nickname_fk} order by reply_idx desc, reply_step) a)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="boardCountNew" parameterType="String" resultType="int">
+		select count(*) from community
+	</select>
+
+	<select id="boardListNew" parameterType="map" resultType="community">
+		select * from
+		(select rownum rnum, a. * from
+		(select * from community) a)
+		where rnum between #{start} and #{end}
+	</select>
+	
+	<select id="replyAllMember" parameterType="String" resultType="comReply">
+		select * from comreple where member_id = #{member_id}
+   	</select>
+
+
+
+</mapper>
